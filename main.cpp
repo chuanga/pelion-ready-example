@@ -30,11 +30,13 @@ BlockDevice *bd = BlockDevice::get_default_instance();
 
 #if COMPONENT_SD || COMPONENT_NUSD
 // Use FATFileSystem for SD card type blockdevices
-FATFileSystem fs("fs", bd);
+//FATFileSystem fs("fs", bd);
 #else
 // Use LittleFileSystem for non-SD block devices to enable wear leveling and other functions
-LittleFileSystem fs("fs", bd);
+//LittleFileSystem fs("fs", bd);
 #endif
+
+FileSystem *fs = FileSystem::get_default_instance();
 
 #if USE_BUTTON == 1
 InterruptIn button(BUTTON1);
@@ -111,7 +113,7 @@ int main(void) {
     // If the User button is pressed ons start, then format storage.
     if (button.read() == MBED_CONF_APP_BUTTON_PRESSED_STATE) {
         printf("User button is pushed on start. Formatting the storage...\n");
-        int storage_status = StorageHelper::format(&fs, bd);
+        int storage_status = StorageHelper::format(fs, bd);
         if (storage_status != 0) {
             printf("ERROR: Failed to reformat the storage (%d).\n", storage_status);
         }
@@ -134,7 +136,7 @@ int main(void) {
     printf("Initializing Pelion Device Management Client...\n");
 
     // SimpleMbedCloudClient handles registering over LwM2M to Pelion Device Management
-    SimpleMbedCloudClient client(net, bd, &fs);
+    SimpleMbedCloudClient client(net, bd, fs);
     int client_status = client.init();
     if (client_status != 0) {
         printf("Pelion Client initialization failed (%d)\n", client_status);

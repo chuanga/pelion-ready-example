@@ -2,7 +2,6 @@
     "macros": [
         "ARM_UC_USE_PAL_BLOCKDEVICE=1",
         "MBED_CLOUD_CLIENT_UPDATE_STORAGE=ARM_UCP_FLASHIAP_BLOCKDEVICE",
-	"PAL_FS_MOUNT_POINT_PRIMARY=\"/sd\"",
         "MCC_PLATFORM_WAIT_BEFORE_BD_INIT=3"
     ],
     "target_overrides": {
@@ -103,6 +102,7 @@
             "target.bootloader_img"             : "bootloader/mbed-bootloader-MTB_ADV_WISE_1530.bin",
             "target.stdio_uart_tx"              : "PA_9",
             "target.stdio_uart_rx"              : "PA_10",
+	    "device-management.pal_fs_mount_point_primary": "\"/sd\"",
             "device-management.partition_mode"         : 0,
             "device-management.primary_partition_size" : "(1024*1024*2)",
             "device-management.sotp-section-1-address" : "0x0800C000",

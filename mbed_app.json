@@ -68,33 +68,49 @@
 	    "target.led2"			: "NC"
         },
         "MTB_ADV_WISE_1570": {
-            "target.components_add"                     : ["SPIF"],
-            "spif-driver.SPI_FREQ"                      : 20000000,
-            "target.network-default-interface-type"     : "CELLULAR",
-            "cellular.debug-at"                         : false,
-            "cellular.use-apn-lookup"                   : false,
-            "platform.stdio-baud-rate"                  : 115200,
-            "platform.default-serial-baud-rate"         : 115200,
-            "device-management.flash-start-address"     : "0x08000000",
-            "device-management.flash-size"              : "(1024*1024)",
-            "device-management.sotp-section-1-address"  : "(MBED_CONF_APP_FLASH_START_ADDRESS + MBED_CONF_APP_FLASH_SIZE - 2*(4*1024))",
-            "device-management.sotp-section-1-size"     : "(4*1024)",
-            "device-management.sotp-section-2-address"  : "(MBED_CONF_APP_FLASH_START_ADDRESS + MBED_CONF_APP_FLASH_SIZE - 1*(4*1024))",
-            "device-management.sotp-section-2-size"     : "(4*1024)",
-            "device-management.mcc_transport_mode"      : 0,
-            "device-management.pal_dtls_peer_min_timeout"         : "20000",
-            "device-management.pal-udp-mtu-size"        : 1358,
-            "update-client.application-details"         : "(MBED_CONF_APP_FLASH_START_ADDRESS + 32*1024)",
-            "update-client.storage-address"             : "(2*1024*1024)",
-            "update-client.storage-size"                : "(1*1024*1024)",
-            "update-client.storage-locations"           : "1",
-            "target.features_add"                       : ["BOOTLOADER"],
-            "target.bootloader_img"                     : "bootloader/mbed-bootloader-MTB_ADV_WISE_1570.bin",
-            "target.header_offset"                      : "0x8000",
-            "target.app_offset"                         : "0x8400",
-            "target.OUTPUT_EXT"                         : "hex",
+	    "target.features_add"               : ["STORAGE", "BOOTLOADER"],
+            "target.components_remove"          : ["SD"],
+            "target.components_add"             : ["SPIF"],
+            "target.clock_source"               : "USE_PLL_HSE_XTAL",
+            "target.stdio_uart_tx"              : "UART2_TX",
+            "target.stdio_uart_rx"              : "UART2_RX",
+            "target.bootloader_img"             : "bootloader/mbed-bootloader-ADV_DB1505_WISE_1570.hex",
+            "target.header_offset"              : "0xA000",
+            "target.app_offset"                 : "0xA400",
+            "target.OUTPUT_EXT"                 : "hex",
+            "target.network-default-interface-type" : "CELLULAR",
+            "events.shared-stacksize"           : 1408,
+            "nanostack-hal.event_loop_thread_stack_size" : 5120,
+            "platform.stdio-baud-rate"          : 115200,
+            "platform.default-serial-baud-rate" : 115200,
+            "cellular.debug-at"                 : false,
+            "cellular.use-apn-lookup"           : false,
+            "spif-driver.SPI_MOSI"              : "PA_7",
+            "spif-driver.SPI_MISO"              : "PA_6",
+            "spif-driver.SPI_CLK"               : "PA_5",
+            "spif-driver.SPI_CS"                : "PA_15",
+	    "spif-driver.SPI_FREQ"              : 20000000,
+            "mbed-client.event-loop-size"       : 1024,
             "mbed-client.sn-coap-duplication-max-msgs-count": 1,
-            "nsapi.dns-response-wait-time"              : 30000
+            "mbed-client.reconnection-count"    : 6,
+            "mbed-client.reconnection-interval" : 20,
+            "nsapi.dns-response-wait-time"      : 30000,
+            "device-management.pal_dtls_peer_min_timeout"         : "20000",
+            "device-management.flash-start-address"               : "0x08000000",
+            "device-management.flash-size"                        : "(1024*1024)",
+            "device-management.partition_mode"                    : 0,
+            "device-management.primary_partition_size"            : "(1024*1024*4)",
+            "device-management.sotp-section-1-address"            : "(0x080FE000)",
+            "device-management.sotp-section-1-size"               : "(0x1000)",
+            "device-management.sotp-section-2-address"            : "(0x080FF000)",
+            "device-management.sotp-section-2-size"               : "(0x1000)",
+            "device-management.sotp-num-sections"                 : 2,
+            "device-management.mcc_transport_mode"                : 2,
+            "device-management.pal-udp-mtu-size"                  : 1358,
+            "update-client.application-details" : "0x0800A000",
+            "update-client.storage-address"     : "(1024*1024*2)",
+            "update-client.storage-size"        : "(1024*1024*2)",
+            "update-client.storage-locations"   : "1"
         }
     },
     "config": {
@@ -103,7 +119,7 @@
             "value": 1
         },
         "main-stack-size": {
-            "value": 6000
+            "value": 6144
         },
         "use-button": {
             "help": "Whether the target has a button",
@@ -116,7 +132,7 @@
         },
 	"no_led": {
             "help": "This flag disables the heartbeat thread in tests. This is useful for platforms that don't have an LED or the LED is used for other functionality like LED on the SPI clockline etc",
-            "value": null
+            "value": 1
         },
 	"developer-mode": {
             "help": "Enable Developer mode to skip Factory enrollment",
